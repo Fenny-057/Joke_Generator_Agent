@@ -162,6 +162,23 @@ git push -u origin main
 
 Create the GitHub repository first, keep it empty, and replace the remote URL with your own. The `.gitignore` excludes API keys, virtual environments, caches, frontend dependencies, and build output.
 
+## Deploy Both Parts on Vercel
+
+Use two Vercel projects connected to the same GitHub repository:
+
+1. Create a Vercel project named `bollywood-comedy-api` with the repository root as its root directory. Vercel detects `api/index.py` as the FastAPI function.
+2. Add these backend environment variables in Vercel:
+    - `GROQ_API_KEY`: your Groq key
+    - `GROQ_MODEL_NAME`: `llama-3.3-70b-versatile`
+    - `FRONTEND_URL`: your frontend Vercel URL
+3. Deploy the backend and copy its URL, such as `https://bollywood-comedy-api.vercel.app`.
+4. Create a second Vercel project named `bollywood-comedy-frontend` from the same repository. Set **Root Directory** to `Frontend` and use the Vite preset.
+5. Add this frontend environment variable:
+    - `VITE_API_URL`: your backend Vercel URL
+6. Deploy the frontend. Copy its URL into the backend `FRONTEND_URL` variable if the URL changed, then redeploy the backend.
+
+The backend remains responsible for the Groq key. The frontend only receives the public backend URL.
+
 ## Project Layout
 
 - `agent.py`: LangGraph generation and validation workflow

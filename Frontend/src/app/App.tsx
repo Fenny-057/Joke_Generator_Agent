@@ -192,7 +192,8 @@ export default function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/joke', {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/joke`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ topic }),
